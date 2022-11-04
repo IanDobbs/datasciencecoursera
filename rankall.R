@@ -61,7 +61,8 @@ rankall <- function(outcome, num = "best")
   
   states <- data.frame(new_names)
   
-  states <- states %>% rename(State=1)
+  states <- states %>% rename(state=1)
+  result <- result %>% rename(hospital=Hospital.Name)
   
   ##return a data frame with the hospital names and the abbreviated state name
   
@@ -77,4 +78,11 @@ head(rankall("heart attack",20), 10)
 tail(rankall("pneumonia", "worst"), 3)
 tail(rankall("heart failure", 1), 10)
 
+## quiz questions
+r <- rankall("heart attack", 4)
+as.character(subset(r, state == "HI")$hospital)
+r <- rankall("pneumonia", "worst")
+as.character(subset(r, state == "NJ")$hospital)
+r <- rankall("heart failure", 10)
+as.character(subset(r, state == "NV")$hospital)
 ## debug(rankall)
