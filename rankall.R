@@ -25,7 +25,7 @@ rankall <- function(outcome, num = "best")
   }  
   
   ## for each state, find the hospital of the given rank
-  dat[, o] <- as.numeric(dat[, o])#coerce the column to numeric to use for order
+  dat[, o] <- suppressWarnings(as.numeric(dat[, o]))#coerce the column to numeric to use for order
   
   dat <- na.omit(dat[order(dat[7], dat[o], dat[2]),]) ## remove nas and order
   
@@ -62,11 +62,11 @@ rankall <- function(outcome, num = "best")
   states <- data.frame(new_names)
   
   states <- states %>% rename(state=1)
-  result <- result %>% rename(hospital=Hospital.Name)
+  result <- result %>% rename(hospital=Hospital.Name, state=State)
   
   ##return a data frame with the hospital names and the abbreviated state name
   
-  final_result <- merge(states, result, by = "State", all = TRUE)
+  final_result <- merge(states, result, by = "state", all = TRUE)
   
   final_result
   
@@ -85,4 +85,5 @@ r <- rankall("pneumonia", "worst")
 as.character(subset(r, state == "NJ")$hospital)
 r <- rankall("heart failure", 10)
 as.character(subset(r, state == "NV")$hospital)
-## debug(rankall)
+
+
